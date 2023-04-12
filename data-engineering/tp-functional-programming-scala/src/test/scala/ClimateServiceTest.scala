@@ -18,10 +18,9 @@ class ClimateServiceTest extends AnyFunSuite {
     assert(ClimateService.isClimateRelated("global warming"))
   }
 
-  //@TODO
   test("parseRawData") {
     // our inputs
-    val firstRecord = (2003, 1, 355.2)     //help: to acces 2003 of this tuple, you can do firstRecord._1
+    val firstRecord = (2003, 1, 355.2)     //help: to access 2003 of this tuple, you can do firstRecord._1
     val secondRecord = (2004, 1, 375.2)
     val list1 = List(firstRecord, secondRecord)
 
@@ -82,6 +81,31 @@ class ClimateServiceTest extends AnyFunSuite {
     val list = List(CO2Record(2020, 1, 400.0)) // assuming CO2Record has a constructor that takes ppm as argument
     val result = ClimateService.getMinMax(list)
     assert(result == (400.0, 400.0))
+  }
+
+  test("getMinMaxByYear - basic") {
+    val records = List(
+      CO2Record(2021, 1, 415.2),
+      CO2Record(2021, 2, 414.9),
+      CO2Record(2021, 3, 415.8),
+      CO2Record(2022, 1, 410.2),
+      CO2Record(2022, 2, 408.9),
+      CO2Record(2022, 3, 412.8)
+    )
+
+    val (min, max) = ClimateService.getMinMaxByYear(records, 2021)
+    val expected = (414.9, 415.8)
+
+    assert((min, max) == expected)
+  }
+
+  test("getMinMaxByYear - empty list should throw IllegalArgumentException") {
+    assertThrows[IllegalArgumentException] {
+      val records = List.empty[CO2Record]
+      val result = {
+        ClimateService.getMinMaxByYear(records, 2021)
+      }
+    }
   }
 
   //@TODO
