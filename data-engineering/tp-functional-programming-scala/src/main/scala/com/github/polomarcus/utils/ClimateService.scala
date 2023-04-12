@@ -29,9 +29,17 @@ object ClimateService {
    * otherwise : None
    * you can access to Tuple with myTuple._1, myTuple._2, myTuple._3
    */
-  def parseRawData(list: List[(Int, Int, Double)]) : List[Option[CO2Record]] = {
-    list.map { record => ??? }
-    ???
+  def parseRawData(list: List[(Int, Int, Double)]): List[Option[CO2Record]] = {
+    list.map { record =>
+      val year = record._1
+      val month = record._2
+      val ppm = record._3
+      if (ppm >= 0) {
+        Some(CO2Record(year, month, ppm))
+      } else {
+        None
+      }
+    }
   }
 
   /**
