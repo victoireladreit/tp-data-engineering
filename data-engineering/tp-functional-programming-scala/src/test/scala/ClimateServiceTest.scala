@@ -108,8 +108,17 @@ class ClimateServiceTest extends AnyFunSuite {
     }
   }
 
-  //@TODO
   test("filterDecemberData") {
-    assert(true == false)
+    val record1 = CO2Record(2020, 11, 415.2)
+    val record2 = CO2Record(2021, 12, 417.5)
+    val record3 = CO2Record(2022, 1, 418.9)
+    val record4 = CO2Record(2022, 12, 420.1)
+
+    val inputList = List(Some(record1), Some(record2), Some(record3), Some(record4))
+
+    val expectedOutput = List(record1, record3) // Expected output after filtering
+    val result = ClimateService.filterDecemberData(inputList)
+
+    assert(result == expectedOutput)
   }
 }

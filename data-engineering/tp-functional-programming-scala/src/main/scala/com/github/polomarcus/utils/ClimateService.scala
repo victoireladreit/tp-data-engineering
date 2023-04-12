@@ -48,7 +48,12 @@ object ClimateService {
    * @param list
    * @return a list
    */
-  def filterDecemberData(list: List[Option[CO2Record]]) : List[CO2Record] = ???
+  def filterDecemberData(list: List[Option[CO2Record]]): List[CO2Record] = {
+    val filteredList = list.flatten // Remove None values from the list
+      .filter(record => record.month != 12) // Filter out records with month equal to 12
+      .map(_.copy()) // Create a copy of each record to avoid modifying the original objects
+    filteredList
+  }
 
 
   /**
