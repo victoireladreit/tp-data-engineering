@@ -16,7 +16,11 @@ object ClimateService {
    * @param description "my awesome sentence contains a key word like climate change"
    * @return Boolean True
    */
-  def isClimateRelated(description: String): Boolean = ???
+  def isClimateRelated(description: String): Boolean = {
+    val keywords = List("global warming", "IPCC", "climate change")
+    val regex = keywords.mkString("|").r
+    regex.findFirstIn(description).isDefined
+  }
 
   /**
    * parse a list of raw data and transport it with type into a list of CO2Record
