@@ -54,7 +54,20 @@ object ClimateService {
   /**
    * **Tips**: look at the read me to find some tips for this function
    */
-  def getMinMax(list: List[CO2Record]) : (Double, Double) = ???
+  def getMinMax(list: List[CO2Record]): (Double, Double) = {
+    if (list.isEmpty) {
+      throw new IllegalArgumentException("Input list is empty")
+    } else {
+      var min = Double.MaxValue
+      var max = Double.MinValue
+      for (record <- list) {
+        val ppm = record.ppm
+        if (ppm < min) min = ppm
+        if (ppm > max) max = ppm
+      }
+      (min, max)
+    }
+  }
 
   def getMinMaxByYear(list: List[CO2Record], year: Int) : (Double, Double) = ???
 

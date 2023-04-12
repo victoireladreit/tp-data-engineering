@@ -46,6 +46,43 @@ class ClimateServiceTest extends AnyFunSuite {
     assert(ClimateService.parseRawData(list1) == output)
   }
 
+  test("getMinMax - basic") {
+    val records = List(
+      CO2Record(2020, 1, 400.0),
+      CO2Record(2020, 2, 410.0),
+      CO2Record(2020, 3, 390.0),
+      CO2Record(2020, 4, 420.0),
+      CO2Record(2020, 5, 380.0)
+    )
+
+    val expected = (380.0, 420.0)
+    val result = ClimateService.getMinMax(records)
+
+    assert(result == expected)
+  }
+
+  test("getMinMax - empty list should throw IllegalArgumentException") {
+    assertThrows[IllegalArgumentException] {
+      val list = List.empty[CO2Record]
+      val result = ClimateService.getMinMax(list)
+    }
+  }
+
+  test("getMinMax - list of multiple records with same ppm values") {
+    val list = List(
+      CO2Record(2020, 1, 400.0),
+      CO2Record(2020, 2, 400.0),
+      CO2Record(2020, 3, 400.0)
+    ) // assuming CO2Record has a constructor that takes ppm as argument
+    val result = ClimateService.getMinMax(list)
+    assert(result == (400.0, 400.0))
+  }
+
+  test("getMinMax - single-record list") {
+    val list = List(CO2Record(2020, 1, 400.0)) // assuming CO2Record has a constructor that takes ppm as argument
+    val result = ClimateService.getMinMax(list)
+    assert(result == (400.0, 400.0))
+  }
 
   //@TODO
   test("filterDecemberData") {
