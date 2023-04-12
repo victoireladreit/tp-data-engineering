@@ -13,6 +13,11 @@ class ClimateServiceTest extends AnyFunSuite {
     assert(ClimateService.isClimateRelated("IPCC"))
   }
 
+  test("isClimateRelated - both") {
+    assert(ClimateService.isClimateRelated("Clara Gaubil") == false)
+    assert(ClimateService.isClimateRelated("global warming"))
+  }
+
   //@TODO
   test("parseRawData") {
     // our inputs
