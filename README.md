@@ -38,3 +38,19 @@ docker-compose version X.XX.X
 
 #### Update your fork
 * https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork
+
+
+## Notes
+
+# Set fork repo as upstream
+
+```bash
+ git remote -v
+ 
+ git remote add <name> fork link
+ 
+ git remote -v
+```
+All git bash commands precise <name> at the end
+  
+  git push <name>
