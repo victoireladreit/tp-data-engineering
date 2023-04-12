@@ -53,4 +53,4 @@ docker-compose version X.XX.X
 ```
 All git bash commands precise <name> at the end
   
-  git push <name>
+  git push name
