@@ -34,6 +34,19 @@ class ClimateServiceTest extends AnyFunSuite {
     assert(ClimateService.parseRawData(list1) == output)
   }
 
+  test("parseRawData - negative ppm") {
+    // our inputs
+    val firstRecord = (2003, 1, -355.2) //help: to access 2003 of this tuple, you can do firstRecord._1
+    val list1 = List(firstRecord)
+
+    // our output of our method "parseRawData"
+    val output = List(None)
+
+    // we call our function here to test our input and output
+    assert(ClimateService.parseRawData(list1) == output)
+  }
+
+
   //@TODO
   test("filterDecemberData") {
     assert(true == false)
