@@ -93,8 +93,13 @@ object ClimateService {
    */
   def showCO2Data(list: List[Option[CO2Record]]): Unit = {
     logger.info("Call ClimateService.filterDecemberData here")
+    val filteredList = filterDecemberData(list)
 
     logger.info("Call record.show function here inside a map function")
+    filteredList.foreach(record => println(record.show))
+
+    val noneCount = list.count(_.isEmpty)
+    logger.info(s"Number of None values in the list: $noneCount")
   }
 
   /**
