@@ -16,7 +16,11 @@ object ClimateService {
    * @param description "my awesome sentence contains a key word like climate change"
    * @return Boolean True
    */
-  def isClimateRelated(description: String): Boolean = ???
+  def isClimateRelated(description: String): Boolean = {
+    val keywords = List("global warming", "IPCC", "climate change")
+    val regex = keywords.mkString("|").r
+    regex.findFirstIn(description).isDefined
+  }
 
   /**
    * parse a list of raw data and transport it with type into a list of CO2Record
@@ -25,9 +29,17 @@ object ClimateService {
    * otherwise : None
    * you can access to Tuple with myTuple._1, myTuple._2, myTuple._3
    */
-  def parseRawData(list: List[(Int, Int, Double)]) : List[Option[CO2Record]] = {
-    list.map { record => ??? }
-    ???
+  def parseRawData(list: List[(Int, Int, Double)]): List[Option[CO2Record]] = {
+    list.map { record =>
+      val year = record._1
+      val month = record._2
+      val ppm = record._3
+      if (ppm >= 0) {
+        Some(CO2Record(year, month, ppm))
+      } else {
+        None
+      }
+    }
   }
 
   /**
@@ -36,15 +48,40 @@ object ClimateService {
    * @param list
    * @return a list
    */
-  def filterDecemberData(list: List[Option[CO2Record]]) : List[CO2Record] = ???
+  def filterDecemberData(list: List[Option[CO2Record]]): List[CO2Record] = {
+    val filteredList = list.flatten // Remove None values from the list
+      .filter(record => record.month != 12) // Filter out records with month equal to 12
+      .map(_.copy()) // Create a copy of each record to avoid modifying the original objects
+    filteredList
+  }
 
 
   /**
    * **Tips**: look at the read me to find some tips for this function
    */
-  def getMinMax(list: List[CO2Record]) : (Double, Double) = ???
+  def getMinMax(list: List[CO2Record]): (Double, Double) = {
+    if (list.isEmpty) {
+      throw new IllegalArgumentException("Input list is empty")
+    } else {
+      var min = Double.MaxValue
+      var max = Double.MinValue
+      for (record <- list) {
+        val ppm = record.ppm
+        if (ppm < min) min = ppm
+        if (ppm > max) max = ppm
+      }
+      (min, max)
+    }
+  }
 
-  def getMinMaxByYear(list: List[CO2Record], year: Int) : (Double, Double) = ???
+  def getMinMaxByYear(list: List[CO2Record], year: Int): (Double, Double) = {
+    val filteredList = list.filter(record => record.year == year)
+    if (filteredList.isEmpty) {
+      throw new IllegalArgumentException(s"No CO2 records found for year $year")
+    } else {
+      getMinMax(filteredList)
+    }
+  }
 
   /**
    * use this function side src/main/scala/com/polomarcus/main/Main (with sbt run)
@@ -56,8 +93,13 @@ object ClimateService {
    */
   def showCO2Data(list: List[Option[CO2Record]]): Unit = {
     logger.info("Call ClimateService.filterDecemberData here")
+    val filteredList = filterDecemberData(list)
 
     logger.info("Call record.show function here inside a map function")
+    filteredList.foreach(record => println(record.show))
+
+    val noneCount = list.count(_.isEmpty)
+    logger.info(s"Number of None values in the list: $noneCount")
   }
 
   /**
