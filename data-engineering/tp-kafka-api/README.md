@@ -30,9 +30,9 @@ Download and install : https://www.conduktor.io/download/
 0. Using Conduktor, create a topic "mytopic" with 5 partitions
 1. Find the `mytopic` topic on Conduktor and its differents configs (ISR, Replication Factor...)
 2. Produce 10 messages (without a key) into it and read them
-3. Look on which topic's partitions they are located.
+3. Look on which topic's partitions they are located. => repartis sur plusieurs partitions
 4. Send another 10 messages but with a key called "epf"
-5. Look again on which topic's partitions they are located.
+5. Look again on which topic's partitions they are located. => repartis sur une seule partition
 
 Questions:
 * [ ] When should we use a key when producing a message into Kafka ? What are the risks ? [Help](https://stackoverflow.com/a/61912094/3535853)

@@ -25,14 +25,14 @@ object KafkaConsumerService {
   props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest") // on the first execution, read from the beginning
 
   //@see https://docs.confluent.io/platform/current/clients/consumer.html#offset-management
-  props.put("enable.auto.commit", "false") // @TODO what are the risks to use this config ?
+  props.put("enable.auto.commit", "true") // @TODO what are the risks to use this config ? change to true to add bookmarks
   props.put("auto.commit.interval.ms", "1000")
 
   val consumer = new KafkaConsumer[String, String](props)
   val topicToRead = List(topic).asJava
 
   //@TODO we need to connect our consumer to our topic by **subscribing** it, tips : https://www.oreilly.com/library/view/kafka-the-definitive/9781491936153/ch04.html#idm45788273579960
-  ???
+  consumer.subscribe(topicToRead)
   
   def consume() = {
     try {
