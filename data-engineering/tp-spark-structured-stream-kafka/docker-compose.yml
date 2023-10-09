@@ -39,4 +39,8 @@ services:
     depends_on:
       - zoo1
     volumes:
+<<<<<<< HEAD
       - ./:/home/appuser
+=======
+      - ./news.txt/:/home/appuser/news.txt
+>>>>>>> a3d982d3affb52e32a3676bbb6cb586524a72f7b
